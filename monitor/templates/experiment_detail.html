@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+{% block head %}
+  {{ js_resources|indent(4)|safe }}
+  {{ css_resources|indent(4)|safe }}
+  {{ script|indent(4)|safe }}
+{% endblock head%}
+
+{% block body %}
+  {% if session.logged_in %}
+    <form action="{{ url_for('add_entry') }}" method=post class=add-entry>
+      <dl>
+        <dt>Title:
+        <dd><input type=text size=30 name=title>
+        <dt>Text:
+        <dd><textarea name=text rows=5 cols=40></textarea>
+        <dd><input type=submit value=Share>
+      </dl>
+    </form>
+  {% endif %}
+  <ul class=entries>
+  <table class="table">
+    <tr>
+      <th>Batch ID</th>
+      <th>ExperimentID</th>
+      <th>Batch Sequence Number</th>
+      <th>Batch Start</th>
+      <th>Batch End</th>
+      <th>PerturbationID</th>
+      <th>Success</th>
+    </tr>
+  {% for batch in data.batches %}
+    <tr>
+      <td>{{batch.id}}</td>
+      <td>{{batch.experimentId}}</td>
+      <td>{{batch.sequenceNumber}}</td>
+      <td>{{batch.starttimestamp}}</td>
+      <td>{{batch.endtimestamp}}</td>
+      <td>{{batch.perturbationId}}</td>
+      <td>{{batch.success}}</td>
+    </tr>	
+  {% else %}
+    <td colspan=4>Unbelievable.  No entries here so far</td>
+  {% endfor %}
+  </table>
+  <table class="table">
+    <tr>
+      <th>Realization ID</th>
+      <th>Realization Name</th>
+      <th>Experiment ID</th>
+      <th>Realization Configuration</th>
+    </tr>
+  {% for realization in data.realizations %}
+    <tr>
+      <td>{{realization.id}}</td>
+      <td>{{realization.name}}</td>
+      <td>{{realization.experimentId}}</td>
+      <td>{{realization.configuration}}</td>
+    </tr>
+  {% else %}
+    <td colspan=4>Unbelievable.  No entries here so far</td>
+  {% endfor %}
+  </table>
+    {{ div|indent(4)|safe }}
+  </ul>
+{% endblock %}

@@ -1,0 +1,3 @@
+greft monitor/templates
+graft monitor/static
+include monitor/seba.db
